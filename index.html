@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tavern Games - D&D Casino</title>
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- LANDING PAGE -->
+    <div id="landing-page" class="page active">
+        <div class="landing-container">
+            <h1 class="tavern-title">🍺 Tavern Games 🍺</h1>
+            <p class="tavern-subtitle">A D&D-Themed Collection of Fantasy Games</p>
+            <div class="landing-buttons">
+                <button class="btn btn-primary" onclick="showPage('player-setup')">Enter the Tavern</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAYER SETUP PAGE -->
+    <div id="player-setup" class="page">
+        <div class="setup-container">
+            <h1>Create Your Character</h1>
+            <form id="player-form">
+                <div class="form-group">
+                    <label for="player-name">Character Name:</label>
+                    <input type="text" id="player-name" required placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label for="player-class">Choose Your Class:</label>
+                    <select id="player-class" required>
+                        <option value="">-- Select a Class --</option>
+                        <option value="Warrior">⚔️ Warrior</option>
+                        <option value="Rogue">🗡️ Rogue</option>
+                        <option value="Mage">🔮 Mage</option>
+                        <option value="Cleric">✨ Cleric</option>
+                        <option value="Bard">🎸 Bard</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Create Character</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- LOBBY PAGE -->
+    <div id="lobby" class="page">
+        <div class="lobby-container">
+            <div class="player-card">
+                <h2 id="lobby-player-name"></h2>
+                <p id="lobby-player-class"></p>
+                <div class="currency-display">
+                    <span id="lobby-currency"></span>
+                </div>
+            </div>
+            <div class="games-menu">
+                <h2>Choose Your Game</h2>
+                <div class="games-grid">
+                    <button class="game-btn" onclick="startGame('blackjack')">
+                        <div class="game-icon">🃏</div>
+                        <div class="game-name">Blackjack</div>
+                    </button>
+                    <button class="game-btn" onclick="startGame('poker')">
+                        <div class="game-icon">♠️</div>
+                        <div class="game-name">Poker</div>
+                    </button>
+                    <button class="game-btn" onclick="startGame('dice-roller')">
+                        <div class="game-icon">🎲</div>
+                        <div class="game-name">Dice Roller</div>
+                    </button>
+                    <button class="game-btn" onclick="startGame('rune-stones')">
+                        <div class="game-icon">💎</div>
+                        <div class="game-name">Rune Stones</div>
+                    </button>
+                </div>
+            </div>
+            <div class="lobby-buttons">
+                <button class="btn btn-secondary" onclick="showLeaderboard()">View Leaderboard</button>
+                <button class="btn btn-danger" onclick="logoutPlayer()">Create New Character</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- BLACKJACK GAME PAGE -->
+    <div id="blackjack-page" class="page">
+        <div class="game-container">
+            <h1>🃏 Blackjack 🃏</h1>
+            
+            <div class="blackjack-area">
+                <!-- Dealer Section -->
+                <div class="dealer-section">
+                    <h3>Dealer's Hand</h3>
+                    <div id="dealer-cards" class="cards-display"></div>
+                    <p id="dealer-value" class="card-value"></p>
+                </div>
+
+                <!-- Player Section -->
+                <div class="player-section">
+                    <h3>Your Hand</h3>
+                    <div id="player-cards" class="cards-display"></div>
+                    <p id="player-value" class="card-value"></p>
+                </div>
+
+                <!-- Game Status -->
+                <div id="game-status" class="game-status"></div>
+
+                <!-- Betting Section -->
+                <div id="betting-section" class="betting-section">
+                    <h3>Place Your Bet</h3>
+                    <div class="bet-input-group">
+                        <input type="number" id="bet-amount" min="1" placeholder="Enter bet amount">
+                        <select id="bet-currency">
+                            <option value="cp">Copper (CP)</option>
+                            <option value="sp">Silver (SP)</option>
+                            <option value="gp">Gold (GP)</option>
+                        </select>
+                        <button class="btn btn-primary" onclick="placeBet()">Place Bet</button>
+                    </div>
+                </div>
+
+                <!-- Game Actions -->
+                <div id="game-actions" class="game-actions" style="display: none;">
+                    <button class="btn btn-primary" onclick="blackjackHit()">Hit</button>
+                    <button class="btn btn-secondary" onclick="blackjackStand()">Stand</button>
+                    <button class="btn btn-warning" onclick="blackjackDoubleDown()">Double Down</button>
+                </div>
+
+                <!-- New Game Button -->
+                <div id="new-game-section" style="display: none;">
+                    <button class="btn btn-primary" onclick="startBlackjack()">Play Again</button>
+                </div>
+
+                <!-- Current Currency -->
+                <div class="currency-info">
+                    <p>Your Balance: <span id="blackjack-currency"></span></p>
+                </div>
+            </div>
+
+            <button class="btn btn-danger" onclick="exitGame()">Exit Game</button>
+        </div>
+    </div>
+
+    <!-- LEADERBOARD PAGE -->
+    <div id="leaderboard" class="page">
+        <div class="leaderboard-container">
+            <h1>👑 Leaderboard 👑</h1>
+            <table class="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Character</th>
+                        <th>Class</th>
+                        <th>Total Wealth</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboard-body">
+                </tbody>
+            </table>
+            <button class="btn btn-secondary" onclick="showPage('lobby')">Back to Lobby</button>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="js/currency.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/games/blackjack.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
